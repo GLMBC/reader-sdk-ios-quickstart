@@ -40,7 +40,7 @@ final class PermissionsViewController: BaseViewController {
     static var areRequiredPermissionsGranted: Bool {
         let locationStatus = CLLocationManager.authorizationStatus()
         let isLocationAccessGranted = (locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways)
-        let isMicrophoneAccessGranted = AVAudioSession.sharedInstance().recordPermission() == .granted
+        let isMicrophoneAccessGranted = AVAudioSession.sharedInstance().recordPermission == .granted
         return (isLocationAccessGranted && isMicrophoneAccessGranted)
     }
     
@@ -56,17 +56,17 @@ final class PermissionsViewController: BaseViewController {
         // When they return, update the button titles.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateMicrophoneButton),
-                                               name: .UIApplicationWillEnterForeground,
+											   name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateLocationButton),
-                                               name: .UIApplicationWillEnterForeground,
+											   name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
     }
     
     // MARK: - Private Methods
     private func openSettings() {
-        if let url = URL(string: UIApplicationOpenSettingsURLString) {
+		if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
@@ -75,7 +75,7 @@ final class PermissionsViewController: BaseViewController {
 // MARK: - Microphone Access
 extension PermissionsViewController {
     @objc private func microphoneButtonTapped() {
-        switch AVAudioSession.sharedInstance().recordPermission() {
+		switch AVAudioSession.sharedInstance().recordPermission {
         case .denied:
             openSettings()
         case .undetermined:
@@ -101,7 +101,7 @@ extension PermissionsViewController {
         let title: String
         let isEnabled: Bool
         
-        switch AVAudioSession.sharedInstance().recordPermission() {
+		switch AVAudioSession.sharedInstance().recordPermission {
         case .denied:
             title = "Enable Microphone in Settings"
             isEnabled = true
