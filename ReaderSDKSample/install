@@ -1,0 +1,3 @@
+ruby <(curl https://connect.squareup.com/readersdk-installer) install 
+--app-id {sq0idp--oSP0fppUmE4qpt2yugKFg} 
+--repo-password {w4z2sibrxlhq2ogy76t4jvor236uhichgoohpcphgshsbftmn57a}
